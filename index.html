@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Ultimate Game &amp; Music Hub — FC Mobile, Solar System 3D, Geometry Dash &amp; Music</title>
+  <style>
+    :root {
+      --bg: #040712;
+      --nav-bg: rgba(9, 14, 29, 0.94);
+      --card-bg: rgba(15, 23, 42, 0.88);
+      --border: rgba(56, 189, 248, 0.24);
+      --cyan: #00F5D4;
+      --gold: #FFD166;
+      --pink: #FF2A85;
+      --purple: #B388FF;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body {
+      background: radial-gradient(circle at 20% 10%, #0F1D3A 0%, #040712 55%, #02040A 100%);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top Website Navigation Bar */
+    .navbar {
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      z-index: 30;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      box-shadow: 0 0 18px rgba(0, 245, 212, 0.35);
+    }
+    .brand-title {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+    }
+    .brand-sub {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 0.6px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: rgba(30, 41, 59, 0.8);
+      color: #CBD5E1;
+      border: 1.5px solid rgba(148, 163, 184, 0.25);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover {
+      border-color: var(--cyan);
+      color: #FFF;
+      transform: translateY(-1px);
+    }
+    .tab-btn.active {
+      background: var(--cyan);
+      color: #040712;
+      border-color: #FFF;
+      font-weight: 900;
+      box-shadow: 0 0 16px rgba(0, 245, 212, 0.4);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .action-btn {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--gold);
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      padding: 7px 12px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .action-btn:hover {
+      background: rgba(255, 209, 102, 0.15);
+    }
+
+    /* Main Content Area */
+    .main-stage {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Home Hub View */
+    .hub-view {
+      height: 100%;
+      overflow-y: auto;
+      padding: 28px 20px 44px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0, 245, 212, 0.14);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 245, 212, 0.45);
+      padding: 5px 14px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 4.5vw, 46px);
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, #00F5D4, #FFD166, #FF2A85);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 20px;
+    }
+    .game-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+      cursor: pointer;
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--cyan);
+      box-shadow: 0 18px 40px rgba(0, 245, 212, 0.16);
+    }
+    .card-banner {
+      height: 130px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(4, 7, 18, 0.85);
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.7px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .card-title {
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .card-desc {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .feature-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .f-pill {
+      background: rgba(4, 7, 18, 0.75);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #CBD5E1;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 7px;
+    }
+    .launch-btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      color: #040712;
+      background: linear-gradient(90deg, #00E676, #00F5D4);
+      transition: filter 0.15s;
+    }
+    .launch-btn:hover {
+      filter: brightness(1.1);
+    }
+
+    /* Embedded Game Iframe Viewport */
+    .player-view {
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+    .player-view.active {
+      display: block;
+    }
+    #gameFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #02040A;
+    }
+
+    /* Global Persistent Mini Music Bar */
+    .mini-music-bar {
+      background: rgba(9, 14, 29, 0.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      z-index: 35;
+    }
+    .mini-track-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 180px;
+    }
+    .mini-disc {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      animation: spinSlow 6s linear infinite;
+      animation-play-state: paused;
+    }
+    .mini-disc.playing { animation-play-state: running; }
+    @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .mini-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 520px;
+    }
+    .mini-btn {
+      background: rgba(30, 41, 59, 0.9);
+      color: #FFF;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .mini-btn:hover { border-color: var(--cyan); }
+    .mini-btn.play {
+      background: var(--cyan);
+      color: #040712;
+      border-color: #FFF;
+      font-weight: 900;
+    }
+    .mini-select {
+      background: #040712;
+      color: #FFF;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      max-width: 170px;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="brand" onclick="openHub()">
+      <div class="brand-logo">🎮</div>
+      <div>
+        <div class="brand-title">ULTIMATE GAME &amp; MUSIC HUB</div>
+        <div class="brand-sub">FC MOBILE • SOLAR SYSTEM 3D • GEOMETRY DASH • MUSIC PLAYER</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" id="tab-hub" onclick="openHub()">🏠 ALL APPS</button>
+      <button class="tab-btn" id="tab-fc" onclick="launchGame('fc', './fc-mobile-web.html')">⚽ FC MOBILE</button>
+      <button class="tab-btn" id="tab-solar" onclick="launchGame('solar', './solar-system-3d.html')">🪐 SOLAR SYSTEM 3D</button>
+      <button class="tab-btn" id="tab-gd" onclick="launchGame('gd', './geometry-dash.html')">🟨 GEOMETRY DASH</button>
+      <button class="tab-btn" id="tab-music" onclick="launchGame('music', './music-player.html')">🎵 MUSIC HUB</button>
+    </nav>
+
+    <div class="nav-actions" id="playerActions" style="display:none;">
+      <button class="action-btn" onclick="toggleFullscreen()">⛶ FULLSCREEN</button>
+      <a class="action-btn" id="openTabLink" href="#" target="_blank">↗ OPEN IN NEW TAB</a>
+    </div>
+  </header>
+
+  <main class="main-stage">
+    <!-- Home Hub Landing Page -->
+    <section class="hub-view" id="hubView">
+      <div class="hero">
+        <div class="hero-badge">3 PLAYABLE WEB GAMES IN ONE PORTAL</div>
+        <h1>CHOOSE YOUR GAME</h1>
+        <p>
+          Jump straight into Ultimate Team football, explore &amp; destroy 3D planets powered by Three.js,
+          or play Geometry Dash synced to your workspace soundtrack with AI Auto-Play.
+        </p>
+      </div>
+
+      <div class="games-grid">
+        <!-- Card 1: FC Mobile -->
+        <div class="game-card" onclick="launchGame('fc', './fc-mobile-web.html')">
+          <div>
+            <div class="card-banner" style="background: linear-gradient(135deg, #064E3B, #0B2545); border: 1px solid #10B981;">
+              <span class="card-tag" style="color: #00F5D4;">SPORTS • ULTIMATE TEAM</span>
+              ⚽
+            </div>
+            <div class="card-title">FC Mobile Ultimate</div>
+            <p class="card-desc">
+              Build your Ultimate XI, open TOTY &amp; Prime ICON Walkout packs, train and rank up superstars,
+              trade on the Transfer Market, and play real-time 11v11 matches.
+            </p>
+            <div class="feature-pills">
+              <span class="f-pill">11v11 Match Engine</span>
+              <span class="f-pill">Pack Walkouts</span>
+              <span class="f-pill">Squad &amp; Rank-Up</span>
+              <span class="f-pill">Transfer Market</span>
+            </div>
+          </div>
+          <button class="launch-btn">▶ PLAY FC MOBILE</button>
+        </div>
+
+        <!-- Card 2: Solar System 3D -->
+        <div class="game-card" onclick="launchGame('solar', './solar-system-3d.html')">
+          <div>
+            <div class="card-banner" style="background: linear-gradient(135deg, #1E1B4B, #4C1D95); border: 1px solid #38BDF8;">
+              <span class="card-tag" style="color: #FFD166;">THREE.JS 3D • SANDBOX</span>
+              🪐
+            </div>
+            <div class="card-title">Solar System 3D &amp; Planet Destroyer</div>
+            <p class="card-desc">
+              Explore all 10 celestial bodies in interactive WebGL 3D with PBR bump maps, Blender .GLB loading,
+              Dyson Forcefield Shields, Orbital Laser Turrets, and Neal.fun Asteroid strikes.
+            </p>
+            <div class="feature-pills">
+              <span class="f-pill">Three.js WebGL</span>
+              <span class="f-pill">Blender .GLB Loader</span>
+              <span class="f-pill">Dyson Shields</span>
+              <span class="f-pill">6 Superweapons</span>
+            </div>
+          </div>
+          <button class="launch-btn" style="background: linear-gradient(90deg, #38BDF8, #00F5D4);">
+            ▶ PLAY SOLAR SYSTEM 3D
+          </button>
+        </div>
+
+        <!-- Card 3: Geometry Dash -->
+        <div class="game-card" onclick="launchGame('gd', './geometry-dash.html')">
+          <div>
+            <div class="card-banner" style="background: linear-gradient(135deg, #4A044E, #831843); border: 1px solid #FF2A85;">
+              <span class="card-tag" style="color: #FF2A85;">RHYTHM • AI AUTO-PLAY</span>
+              🟨
+            </div>
+            <div class="card-title">Geometry Dash (hitler.mp4)</div>
+            <p class="card-desc">
+              Rhythm platformer synced to <code>hitler.mp4</code> with a beat-reactive video visualizer,
+              Cube/Ship/Wave portals, Practice checkpoints, and a smart AI Auto-Play bot.
+            </p>
+            <div class="feature-pills">
+              <span class="f-pill">Synced to hitler.mp4</span>
+              <span class="f-pill">🤖 AI Auto-Play</span>
+              <span class="f-pill">Cube / Ship / Wave</span>
+              <span class="f-pill">Practice Mode</span>
+            </div>
+          </div>
+          <button class="launch-btn" style="background: linear-gradient(90deg, #FFD166, #FF2A85); color: #FFF;">
+            ▶ PLAY GEOMETRY DASH
+          </button>
+        </div>
+
+        <!-- Card 4: Music Player & Uploader -->
+        <div class="game-card" onclick="launchGame('music', './music-player.html')">
+          <div>
+            <div class="card-banner" style="background: linear-gradient(135deg, #0F172A, #311042); border: 1px solid #B388FF;">
+              <span class="card-tag" style="color: #B388FF;">MUSIC • UPLOAD &amp; STREAM</span>
+              🎵
+            </div>
+            <div class="card-title">Music Hub &amp; Uploader</div>
+            <p class="card-desc">
+              Listen to workspace tracks or upload your own MP3, WAV, FLAC, M4A, and MP4 files
+              with persistent browser storage, shuffle/repeat, and a live frequency visualizer.
+            </p>
+            <div class="feature-pills">
+              <span class="f-pill">Drag &amp; Drop Upload</span>
+              <span class="f-pill">Saved in Browser</span>
+              <span class="f-pill">Live Visualizer</span>
+              <span class="f-pill">Speed &amp; Shuffle</span>
+            </div>
+          </div>
+          <button class="launch-btn" style="background: linear-gradient(90deg, #B388FF, #00F5D4);">
+            ▶ OPEN MUSIC HUB
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Embedded Game Player View -->
+    <section class="player-view" id="playerView">
+      <iframe id="gameFrame" allow="autoplay; fullscreen"></iframe>
+    </section>
+  </main>
+
+  <!-- Global Persistent Music Bar (Plays across all games & hub!) -->
+  <footer class="mini-music-bar">
+    <audio id="globalAudio" preload="metadata"></audio>
+    <input type="file" id="quickMusicUpload" accept="audio/*,video/*" multiple style="display:none;" onchange="handleQuickUpload(event)" />
+
+    <div class="mini-track-info">
+      <div class="mini-disc" id="miniDisc">🎵</div>
+      <div>
+        <select class="mini-select" id="miniTrackSelect" onchange="selectMiniTrack(this.value)"></select>
+      </div>
+    </div>
+
+    <div class="mini-controls">
+      <button class="mini-btn" onclick="miniPrev()">⏮</button>
+      <button class="mini-btn play" id="miniPlayBtn" onclick="miniTogglePlay()">▶</button>
+      <button class="mini-btn" onclick="miniNext()">⏭</button>
+      <input type="range" id="miniSeek" min="0" max="100" value="0" step="0.5" style="flex:1;accent-color:#00F5D4;" oninput="miniSeekTo(this.value)" />
+      <span id="miniTime" style="font-size:11px;color:#94A3B8;font-weight:700;min-width:38px;">0:00</span>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="mini-btn" style="border-color:var(--purple);color:var(--purple);" onclick="document.getElementById('quickMusicUpload').click()">
+        ☁️ + UPLOAD MUSIC
+      </button>
+      <button class="mini-btn" onclick="launchGame('music', './music-player.html')">
+        🎛️ FULL PLAYER
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const hubView = document.getElementById('hubView');
+    const playerView = document.getElementById('playerView');
+    const gameFrame = document.getElementById('gameFrame');
+    const playerActions = document.getElementById('playerActions');
+    const openTabLink = document.getElementById('openTabLink');
+
+    // Global Persistent Music Bar Logic
+    const globalAudio = document.getElementById('globalAudio');
+    const miniTracks = [
+      { name: 'hitler.mp4', src: './hitler.mp4' },
+      { name: 'ninjago.mp4', src: './ninjago.mp4' }
+    ];
+    let miniIdx = 0;
+
+    function renderMiniSelect() {
+      const sel = document.getElementById('miniTrackSelect');
+      sel.innerHTML = miniTracks.map((t, i) => `<option value="${i}" ${i === miniIdx ? 'selected' : ''}>${t.name}</option>`).join('');
+    }
+
+    window.selectMiniTrack = function(idx, autoPlay = true) {
+      miniIdx = +idx;
+      globalAudio.src = miniTracks[miniIdx].src;
+      renderMiniSelect();
+      if (autoPlay) {
+        globalAudio.play().then(() => updateMiniState(true)).catch(() => {});
+      }
+    };
+
+    window.miniTogglePlay = function() {
+      if (!globalAudio.src) globalAudio.src = miniTracks[miniIdx].src;
+      if (globalAudio.paused) {
+        globalAudio.play().then(() => updateMiniState(true)).catch(() => {});
+      } else {
+        globalAudio.pause();
+        updateMiniState(false);
+      }
+    };
+
+    window.miniNext = function() {
+      selectMiniTrack((miniIdx + 1) % miniTracks.length, true);
+    };
+
+    window.miniPrev = function() {
+      selectMiniTrack((miniIdx - 1 + miniTracks.length) % miniTracks.length, true);
+    };
+
+    window.miniSeekTo = function(val) {
+      if (globalAudio.duration) globalAudio.currentTime = (val / 100) * globalAudio.duration;
+    };
+
+    window.handleQuickUpload = function(e) {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      files.forEach(f => {
+        miniTracks.push({ name: f.name, src: URL.createObjectURL(f) });
+      });
+      selectMiniTrack(miniTracks.length - files.length, true);
+      e.target.value = '';
+    };
+
+    function updateMiniState(playing) {
+      document.getElementById('miniPlayBtn').textContent = playing ? '⏸' : '▶';
+      document.getElementById('miniDisc').classList.toggle('playing', playing);
+    }
+
+    globalAudio.addEventListener('timeupdate', () => {
+      if (globalAudio.duration) {
+        document.getElementById('miniSeek').value = (globalAudio.currentTime / globalAudio.duration) * 100;
+        const m = Math.floor(globalAudio.currentTime / 60);
+        const s = Math.floor(globalAudio.currentTime % 60);
+        document.getElementById('miniTime').textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+      }
+    });
+    globalAudio.addEventListener('ended', () => miniNext());
+    renderMiniSelect();
+    globalAudio.src = miniTracks[0].src;
+
+    function setActiveTab(key) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      const el = document.getElementById('tab-' + key);
+      if (el) el.classList.add('active');
+    }
+
+    window.openHub = function() {
+      setActiveTab('hub');
+      playerView.classList.remove('active');
+      hubView.style.display = 'block';
+      playerActions.style.display = 'none';
+      // Unload iframe so audio/loops stop when returning to menu
+      gameFrame.src = 'about:blank';
+    };
+
+    window.launchGame = function(key, url) {
+      setActiveTab(key);
+      hubView.style.display = 'none';
+      playerView.classList.add('active');
+      playerActions.style.display = 'flex';
+      openTabLink.href = url;
+      gameFrame.src = url;
+      gameFrame.focus();
+    };
+
+    window.toggleFullscreen = function() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    };
+  </script>
+</body>
+</html>
